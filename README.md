@@ -5,7 +5,7 @@ Please know that this code is not perfect, and you still have to do something ma
 The faculty list will need to be updated throughout time.
 
 ### Code
-First load the library and the faculty names:
+First load the library and the faculty names (NOTE: Make sure to edit the file path to match where your document is located)
 ```
 #rm(list=ls()) 
 library(easyPubMed)
@@ -21,8 +21,8 @@ FList <- read.xlsx("/Users/bmb/Documents/faculty list_2022.12_AI.xlsx")
 I will suggest to use days from **Friday of previous week to Thursday of this week**, so we will not miss any publications. This is because BMB weekly is published every Friday.
 ```
 START <- "2023-03-24"
-END <- "2022-04-05"
-YEAR <- "2022"
+END <- "2023-04-07"
+YEAR <- "2023"
 ```
 
 Loop for PubMed searching:
@@ -83,5 +83,5 @@ df
 
 Save the file:
 ```
-write.xlsx(df,"~/Desktop/12_09_12_15_2022_papers.xlsx",)
+write.xlsx(df,"~/Documents/bmb_weekly_14_publications.xlsx",)
 ```
