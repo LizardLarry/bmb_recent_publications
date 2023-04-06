@@ -18,7 +18,7 @@ FList <- read.xlsx("/Users/bmb/Documents/faculty list_2022.12_AI.xlsx")
 ```
 
 ### Next you need to provide parameters:
-I will suggest to use days from **Friday of previous week to Thursday of this week**, so we will not miss any publications. This is because BMB weekly is published every Friday.
+I suggest to do this biweekly. (NOTE: Make sure to edit the dates below)
 ```
 START <- "2023-03-24"
 END <- "2023-04-07"
@@ -57,29 +57,29 @@ suppressMessages(for(i in 1:length(FList$FName)){
     
     # final_df
     # Some names like: Farr&#xe9 or Ru&#xdf... need to be fixed
-    final_df <- final_df %>% dplyr::select(author, title, jabbrv, doi, pmid, year, month, day)
+    final_df <- final_df %>% dplyr::select(author, title, journal, doi, pmid, year, month, day)
     final_df1 <- final_df %>%
-      group_by(title, year, month, day, jabbrv, doi) %>%
+      group_by(title, year, month, day, journal, doi) %>%
       summarize(authors = str_c(author, collapse = ", ")) %>% as.data.frame()
     
     # Select fields
-    final_df2 <- final_df1 %>% dplyr::select(authors, title, jabbrv, year, month, day, doi)
+    final_df2 <- final_df1 %>% dplyr::select(authors, title, journal, year, month, day, doi)
     
     # create a date variable
     final_df2$date <- ymd(paste(final_df2$year,final_df2$month,final_df2$day,sep="-"))
-    final_df2$date2 <- format(final_df2$date, format="%B %Y")
+    final_df2$date2 <- format(final_df2$date, format="(%Y)")
     
     # Filter for a specific week with the date variable
-    
     final_df2 <- final_df2 %>% filter(date >= as.Date(START), date <= as.Date(END))
     
     if (nrow(final_df2)>0) {
       print(final_df2)
-      final_df3 <- final_df2 %>% dplyr::select(authors,title,jabbrv,date2)
-      final_df3$combine <- paste0(final_df3$authors," \"",
-                                  final_df3$title,"\". ",
-                                  final_df3$jabbrv,". ",
-                                  final_df3$date2)
+      final_df3 <- final_df2 %>% dplyr::select(authors,date2,title,journal,doi)
+      final_df3$combine <- paste0(final_df3$authors," ",
+                                  final_df3$date2,". ",
+                                  final_df3$title," ",
+                                  final_df3$journal,". https://doi.org/",
+                                  final_df3$doi)
       PAPERS <- c(PAPERS,final_df3$combine)
     } else {next}
   }else {next}
