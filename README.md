@@ -77,8 +77,7 @@ suppressMessages(for(i in 1:length(FList$FName)){
       final_df3 <- final_df2 %>% dplyr::select(authors,date2,title,journal,doi)
       final_df3$combine <- paste0(final_df3$authors," ",
                                   final_df3$date2,". ",
-                                  final_df3$title," ",
-                                  final_df3$journal,". https://doi.org/",
+                                  final_df3$title," https://doi.org/",
                                   final_df3$doi)
       PAPERS <- c(PAPERS,final_df3$combine)
     } else {next}
